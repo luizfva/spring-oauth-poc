@@ -43,3 +43,14 @@ management:
   info:
     git:
       mode: full
+
+
+
+---
+spring:
+  profiles:
+    test
+
+logging:
+  level:
+    root: DEBUG

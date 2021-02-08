@@ -22,6 +22,9 @@ public class CustomerLoginUrlAuthenticationEntryPoint extends LoginUrlAuthentica
     @Autowired
     private UriCustomerExtractor customerExtractor;
 
+    @Autowired
+    private CustomerClientRegistrationRepository customerClientRegistrationRepository;
+
     public CustomerLoginUrlAuthenticationEntryPoint() {
         super(DEFAULT_AUTHORIZATION_REQUEST_BASE_URI + "/" + "internal");
     }
@@ -30,7 +33,9 @@ public class CustomerLoginUrlAuthenticationEntryPoint extends LoginUrlAuthentica
     protected String determineUrlToUseForThisRequest(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException exception) {
         final Optional<String> customer = customerExtractor.extract(request);
 
-        return customer.map(customerRegistrationName -> DEFAULT_AUTHORIZATION_REQUEST_BASE_URI + "/" + customerRegistrationName)
+        return customer
+                .filter(customerRegistrationName -> customerClientRegistrationRepository.findByRegistrationId(customerRegistrationName) != null)
+                .map(customerRegistrationName -> DEFAULT_AUTHORIZATION_REQUEST_BASE_URI + "/" + customerRegistrationName)
                 .orElse("/?error=notFound");
     }
 }
