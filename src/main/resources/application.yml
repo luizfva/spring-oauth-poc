@@ -2,6 +2,31 @@ spring:
   profiles:
     active: ${ENV:local} # sets `local` as the default active profile
 
+  security:
+    oauth2:
+      client:
+        registration:
+          internal:
+            # Dummy credentials - on real world scenario, we would need a safe secret store for them
+            client-id: 0oa22q120mMFqkFFS4x7
+            client-secret: 4RKedMCF1rApJMFuTNPvaIc8eXcyfqwQc0HIZi-x
+        provider:
+          okta:
+            issuer-uri: ${app.auth.auth-server-base-url}
+
+app:
+  auth:
+    auth-server-base-url: https://dev-401024.okta.com/oauth2/default
+    auth-server-logout-url: ${app.auth.auth-server-base-url}/v1/logout
+    scopes:
+      - openid
+      - email
+    registrations:
+      # Dummy credentials - on real world scenario, we would need a safe secret store for them
+      acme:
+        client-id: 0oa23ytbddzdE4SJA4x7
+        client-secret: JgIafFrkKV2Hk1mFrLq8jfEd56ZCSXguTg-5T3eL
+
 management:
   endpoints:
     web:
