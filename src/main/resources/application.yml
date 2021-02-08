@@ -2,17 +2,6 @@ spring:
   profiles:
     active: ${ENV:local} # sets `local` as the default active profile
 
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${app.auth.auth-service-base-url}
-          jwk-set-uri: ${app.auth.auth-service-base-url}/v1/keys
-
-app:
-  auth:
-    auth-service-base-url: https://dev-401024.okta.com/oauth2/default
-
 management:
   endpoints:
     web:
